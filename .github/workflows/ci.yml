@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "0.159.0"
+          extended: true
+
+      - name: Build sample site
+        shell: bash
+        run: |
+          set -euo pipefail
+          SITE_DIR="${RUNNER_TEMP}/site"
+          OUT_DIR="${RUNNER_TEMP}/public"
+          mkdir -p "${SITE_DIR}/content" "${SITE_DIR}/assets/renderers" "${SITE_DIR}/layouts/_default" "${SITE_DIR}/_modules"
+          ln -s "${GITHUB_WORKSPACE}" "${SITE_DIR}/_modules/hugo-mod-abcjs"
+
+          cat > "${SITE_DIR}/layouts/_default/single.html" <<'EOF'
+          <!DOCTYPE html>
+          <html><body>{{ .Content }}</body></html>
+          EOF
+
+          cat > "${SITE_DIR}/layouts/_default/list.html" <<'EOF'
+          <!DOCTYPE html>
+          <html><body>{{ .Content }}</body></html>
+          EOF
+
+          cat > "${SITE_DIR}/hugo.toml" <<'EOF'
+          baseURL = "https://example.org/"
+          [module]
+            [[module.mounts]]
+              source = "content"
+              target = "content"
+            [[module.mounts]]
+              source = "assets"
+              target = "assets"
+            [[module.mounts]]
+              source = "layouts"
+              target = "layouts"
+            [[module.mounts]]
+              source = "_modules/hugo-mod-abcjs/layouts"
+              target = "layouts"
+            [[module.mounts]]
+              source = "_modules/hugo-mod-abcjs/static"
+              target = "static"
+          EOF
+
+          cat > "${SITE_DIR}/assets/renderers/abc.abc" <<'EOF'
+          X:1
+          T:Scale
+          M:4/4
+          L:1/4
+          K:C
+          C D E F | G A B c |
+          EOF
+
+          cat > "${SITE_DIR}/content/test.md" <<'EOF'
+          ---
+          title: "ABCjs test"
+          ---
+
+          {{< abcjs src="renderers/abc.abc" />}}
+          EOF
+
+          hugo --source "${SITE_DIR}" --destination "${OUT_DIR}"
+          grep -q 'vendor/hugo-mod-abcjs/hugo-mod-abcjs.js' "${OUT_DIR}/test/index.html"
+          grep -q 'data-hugo-mod-abcjs' "${OUT_DIR}/test/index.html"
