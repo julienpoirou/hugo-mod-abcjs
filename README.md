@@ -56,6 +56,13 @@ File source:
 {{< abcjs src="renderers/abc.abc" />}}
 ```
 
+Base64 source (when the ABC text would otherwise conflict with Markdown
+or shortcode parsing):
+
+```text
+{{< abcjs b64="WDoxClQ6U2NhbGUKSzpDCkMgRCBFIEYgfA==" />}}
+```
+
 ## Output assets
 
 The module publishes:
