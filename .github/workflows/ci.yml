@@ -71,14 +71,52 @@ jobs:
           C D E F | G A B c |
           EOF
 
-          cat > "${SITE_DIR}/content/test.md" <<'EOF'
+          B64_SOURCE=$(printf 'X:1\nT:B64 tune\nK:C\nC D E F |' | base64 -w0)
+
+          cat > "${SITE_DIR}/content/test.md" <<EOF
           ---
           title: "ABCjs test"
           ---
 
           {{< abcjs src="renderers/abc.abc" />}}
+
+          {{< abcjs >}}
+          X:1
+          T:Mélodie à l'école — éàüç
+          M:4/4
+          L:1/4
+          K:C
+          C D E F | G A B c |
+          {{< /abcjs >}}
+
+          {{< abcjs b64="${B64_SOURCE}" />}}
           EOF
 
           hugo --source "${SITE_DIR}" --destination "${OUT_DIR}"
-          grep -q 'vendor/hugo-mod-abcjs/hugo-mod-abcjs.js' "${OUT_DIR}/test/index.html"
-          grep -q 'data-hugo-mod-abcjs' "${OUT_DIR}/test/index.html"
+          PAGE="${OUT_DIR}/test/index.html"
+
+          # Assets injected, and only once for the whole page.
+          grep -q 'vendor/hugo-mod-abcjs/hugo-mod-abcjs.js' "${PAGE}"
+          test "$(grep -c 'hugo-mod-abcjs.js' "${PAGE}")" -eq 1
+
+          # All three input modes produce a wrapper.
+          test "$(grep -c 'data-hugo-mod-abcjs' "${PAGE}")" -eq 3
+
+          # Inline UTF-8 source survives the base64 round-trip untouched.
+          grep -o 'data-source="[^"]*"' "${PAGE}" | sed -n '2p' \
+            | sed 's/data-source="//;s/"$//' | base64 -d \
+            | grep -q "Mélodie à l'école — éàüç"
+
+          # An empty source must fail the build explicitly.
+          cat > "${SITE_DIR}/content/invalid.md" <<'EOF'
+          ---
+          title: "invalid"
+          ---
+
+          {{< abcjs >}}
+          {{< /abcjs >}}
+          EOF
+          if hugo --source "${SITE_DIR}" --destination "${RUNNER_TEMP}/public-invalid"; then
+            echo "expected the build to fail on an empty shortcode source" >&2
+            exit 1
+          fi
