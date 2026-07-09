@@ -4,8 +4,8 @@
   <script src="{{ "vendor/hugo-mod-abcjs/hugo-mod-abcjs.js" | relURL }}"></script>
   {{- .Page.Scratch.Set "hugoModAbcjsLoaded" true -}}
 {{- end -}}
-{{- $source := .Inner -}}
-{{- $src := .Get "src" -}}
+{{- $source := or .Inner "" -}}
+{{- $src := or (.Get "src") "" -}}
 {{- $encodedSource := "" -}}
 {{- with .Get "b64" -}}
   {{- $encodedSource = . -}}
