@@ -103,8 +103,10 @@ jobs:
           test "$(grep -c 'data-hugo-mod-abcjs' "${PAGE}")" -eq 3
 
           # Inline UTF-8 source survives the base64 round-trip untouched.
+          # Hugo escapes "+" as "&#43;" in attributes; browsers unescape it,
+          # so the assertion must do the same before decoding.
           grep -o 'data-source="[^"]*"' "${PAGE}" | sed -n '2p' \
-            | sed 's/data-source="//;s/"$//' | base64 -d \
+            | sed 's/data-source="//;s/"$//;s/&#43;/+/g' | base64 -d \
             | grep -q "Mélodie à l'école — éàüç"
 
           # An empty source must fail the build explicitly.
