@@ -65,11 +65,16 @@ or shortcode parsing):
 
 ## Output assets
 
-The module publishes:
+The module publishes, through Hugo Pipes (`resources.Get` + `fingerprint`),
+so each file's published URL includes a content hash for cache-busting and
+ships a Subresource Integrity attribute:
 
-- `vendor/hugo-mod-abcjs/abcjs-basic-min.js`
-- `vendor/hugo-mod-abcjs/hugo-mod-abcjs.js`
-- `vendor/hugo-mod-abcjs/hugo-mod-abcjs.css`
+- `vendor/hugo-mod-abcjs/abcjs-basic-min.<hash>.js`
+- `vendor/hugo-mod-abcjs/hugo-mod-abcjs.<hash>.js`
+- `vendor/hugo-mod-abcjs/hugo-mod-abcjs.<hash>.css`
+
+Source files live under `assets/vendor/hugo-mod-abcjs/` in this repository;
+see [`VENDORED.md`](VENDORED.md) for their unfingerprinted checksums.
 
 ## Development
 

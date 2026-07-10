@@ -1,7 +1,10 @@
 {{- if not (.Page.Scratch.Get "hugoModAbcjsLoaded") -}}
-  <link rel="stylesheet" href="{{ "vendor/hugo-mod-abcjs/hugo-mod-abcjs.css" | relURL }}">
-  <script defer src="{{ "vendor/hugo-mod-abcjs/abcjs-basic-min.js" | relURL }}"></script>
-  <script defer src="{{ "vendor/hugo-mod-abcjs/hugo-mod-abcjs.js" | relURL }}"></script>
+  {{- $style := resources.Get "vendor/hugo-mod-abcjs/hugo-mod-abcjs.css" | fingerprint "sha256" -}}
+  {{- $lib := resources.Get "vendor/hugo-mod-abcjs/abcjs-basic-min.js" | fingerprint "sha256" -}}
+  {{- $glue := resources.Get "vendor/hugo-mod-abcjs/hugo-mod-abcjs.js" | fingerprint "sha256" -}}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
+  <script defer src="{{ $lib.RelPermalink }}" integrity="{{ $lib.Data.Integrity }}"></script>
+  <script defer src="{{ $glue.RelPermalink }}" integrity="{{ $glue.Data.Integrity }}"></script>
   {{- .Page.Scratch.Set "hugoModAbcjsLoaded" true -}}
 {{- end -}}
 {{- $source := or .Inner "" -}}
