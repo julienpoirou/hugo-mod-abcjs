@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/julienpoirou/hugo-mod-abcjs/compare/v0.2.1...v0.2.2) (2026-07-14)
+
+
+### Corrections 🐛
+
+* **assets:** Move vendored assets out of a "vendor/" path component ([7a8ab77](https://github.com/julienpoirou/hugo-mod-abcjs/commit/7a8ab77030b38a6cd539bcd9847dc3a279f0c0da))
+
 ## [0.2.1](https://github.com/julienpoirou/hugo-mod-abcjs/compare/v0.2.0...v0.2.1) (2026-07-10)
 
 
