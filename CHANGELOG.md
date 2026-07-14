@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/julienpoirou/hugo-mod-abcjs/compare/v0.2.2...v0.2.3) (2026-07-14)
+
+
+### Corrections 🐛
+
+* **tests:** Contain served paths within rootDir in serve.js ([4f3356d](https://github.com/julienpoirou/hugo-mod-abcjs/commit/4f3356d5524ddb8a908e7eb24e7f2a1b3ffe1f78))
+
 ## [0.2.2](https://github.com/julienpoirou/hugo-mod-abcjs/compare/v0.2.1...v0.2.2) (2026-07-14)
 
 
