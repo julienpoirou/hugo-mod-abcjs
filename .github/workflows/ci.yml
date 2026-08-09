@@ -82,7 +82,7 @@ jobs:
 
           {{< abcjs >}}
           X:1
-          T:Mélodie à l'école — éàüç
+          T:Mélodie à l'école - éàüç
           M:4/4
           L:1/4
           K:C
@@ -115,7 +115,7 @@ jobs:
           # so the assertion must do the same before decoding.
           grep -o 'data-source="[^"]*"' "${PAGE}" | sed -n '2p' \
             | sed 's/data-source="//;s/"$//;s/&#43;/+/g' | base64 -d \
-            | grep -q "Mélodie à l'école — éàüç"
+            | grep -q "Mélodie à l'école - éàüç"
 
           # An empty source must fail the build explicitly.
           cat > "${SITE_DIR}/content/invalid.md" <<'EOF'

@@ -2,42 +2,51 @@
 
 [![CI](https://github.com/julienpoirou/hugo-mod-abcjs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/julienpoirou/hugo-mod-abcjs/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/julienpoirou/hugo-mod-abcjs/actions/workflows/codeql.yml/badge.svg)](https://github.com/julienpoirou/hugo-mod-abcjs/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/julienpoirou/hugo-mod-abcjs/badge)](https://scorecard.dev/viewer/?uri=github.com/julienpoirou/hugo-mod-abcjs)
 [![Release](https://img.shields.io/github/v/release/julienpoirou/hugo-mod-abcjs?include_prereleases&sort=semver)](https://github.com/julienpoirou/hugo-mod-abcjs/releases)
 [![Hugo Module](https://img.shields.io/badge/Hugo-Module-FF4088?logo=hugo&logoColor=white)](https://gohugo.io/hugo-modules/)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196.svg)](https://www.conventionalcommits.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 <p align="center">
   <img src="./logo.svg" alt="hugo-mod-abcjs logo" width="160" height="160">
 </p>
 
-Standalone Hugo module for ABC music notation rendering with vendored `ABCjs` assets and shortcode helpers.
+<p align="center">
+  <strong>ABC music notation in your Hugo pages.</strong><br>
+  One shortcode, vendored <code>ABCjs</code>, responsive SVG rendered in the reader's browser.
+</p>
 
-## Features
+## Requires
 
-- Render scores with `{{< abcjs >}}`
-- Support `src`, `b64`, and inline body input modes
-- Ship vendored `ABCjs`
-- Render responsive SVG output in the browser
-- Fail explicitly at build time when shortcode source is missing
+- Hugo >= `0.124`. The extended edition is not required.
 
-## Requirements
+## Install
 
-- Hugo `>= 0.124`
-- A Hugo site with Hugo Modules enabled
+**Binary** - Hugo and Go installed locally:
 
-## Installation
-
-Import the module in your Hugo site:
+```bash
+hugo mod init example.com/my-site
+hugo mod get github.com/julienpoirou/hugo-mod-abcjs
+```
 
 ```toml
+# hugo.toml
 [module]
   [[module.imports]]
     path = "github.com/julienpoirou/hugo-mod-abcjs"
 ```
 
+**Container** - Docker installed locally:
+
+```bash
+alias hugo='docker run --rm -v "$PWD":/src -p 1313:1313 hugomods/hugo:go-git hugo'
+hugo mod init example.com/my-site
+hugo mod get github.com/julienpoirou/hugo-mod-abcjs
+```
+
 ## Usage
 
-Inline source:
+**Shortcode** - Raw ABC option between the tags:
 
 ```text
 {{< abcjs >}}
@@ -50,44 +59,44 @@ C D E F | G A B c |
 {{< /abcjs >}}
 ```
 
-File source:
+**Self-closing shortcode** - Source read from a file:
 
 ```text
 {{< abcjs src="renderers/abc.abc" />}}
 ```
 
-Base64 source (when the ABC text would otherwise conflict with Markdown
-or shortcode parsing):
+**Self-closing shortcode** - Source passed as base64:
 
 ```text
 {{< abcjs b64="WDoxClQ6U2NhbGUKSzpDCkMgRCBFIEYgfA==" />}}
 ```
 
-## Output assets
+### Parameters
 
-The module publishes, through Hugo Pipes (`resources.Get` + `fingerprint`),
-so each file's published URL includes a content hash for cache-busting and
-ships a Subresource Integrity attribute:
+| Param | Description |
+|---|---|
+| inner content | Raw ABC source between the opening and closing tags |
+| `src` | Path, relative to `assets/`, of a file holding the ABC source |
+| `b64` | Base64-encoded ABC source |
 
-- `libs/hugo-mod-abcjs/abcjs-basic-min.<hash>.js`
-- `libs/hugo-mod-abcjs/hugo-mod-abcjs.<hash>.js`
-- `libs/hugo-mod-abcjs/hugo-mod-abcjs.<hash>.css`
+> At least one input is required. If several are given, `b64` wins over `src`, and `src` wins over the inner content the others are ignored silently.
 
-Source files live under `assets/libs/hugo-mod-abcjs/` in this repository;
-see [`VENDORED.md`](VENDORED.md) for their unfingerprinted checksums.
+> A missing or empty source fails the build with an explicit error rather than emitting a blank page. An invalid `b64` payload is not caught at build time: it surfaces at render time, as an error message in place of the score.
 
-## Development
+> `src` is resolved with `readFile` from the project root, so the file must live in your own site's `assets/`. A `.abc` mounted from a theme or from another module will not be found.
 
-```bash
-git clone https://github.com/julienpoirou/hugo-mod-abcjs
-cd hugo-mod-abcjs
-```
+## Rendering
 
-The main verification is handled by GitHub Actions with a minimal Hugo site that mounts the module and builds a sample page.
+The score is drawn in the reader's browser as a responsive `<svg>` that reflows with its container.
 
-## Contributing
+- The stylesheet and both scripts are injected once per page, at the first `abcjs` shortcode in the flow of the content, not in `<head>`. Each one is fingerprinted and carries a Subresource Integrity hash.
+- ABCjs runs with `responsive: "resize"` and nothing else. Scale, transposition and staff width are not configurable yet.
+- Without JavaScript the shortcode leaves an empty block: there is no server-side fallback.
 
-- Use Conventional Commits for branch history
-- Update docs or changelog when behavior changes
-- Keep sample ABC snippets valid and minimal
-- See [`.github/CONTRIBUTING.md`](.github/CONTRIBUTING.md) for contribution guidance
+## Vendored assets
+
+ABCjs `6.6.3` ships inside the module, no CDN, no third-party request at page load. Provenance, license and SHA-256 are recorded in [VENDORED.md](VENDORED.md).
+
+## License
+
+MIT © 2025 [Julien Poirou](mailto:julienpoirou@protonmail.com)
