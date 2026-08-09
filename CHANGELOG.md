@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.4](https://github.com/julienpoirou/hugo-mod-abcjs/compare/v0.2.3...v0.2.4) (2026-08-09)
+
+
+### Corrections 🐛
+
+* **security:** Uncontrolled data used in path expression ([6c804af](https://github.com/julienpoirou/hugo-mod-abcjs/commit/6c804af14b01b71f69088b79d9e8efa561fbbfad))
+
 ## [0.2.3](https://github.com/julienpoirou/hugo-mod-abcjs/compare/v0.2.2...v0.2.3) (2026-07-14)
 
 
