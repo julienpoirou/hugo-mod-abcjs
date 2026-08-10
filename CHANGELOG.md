@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.5](https://github.com/julienpoirou/hugo-mod-abcjs/compare/v0.2.4...v0.2.5) (2026-08-10)
+
+
+### Corrections 🐛
+
+* **assets:** Update abcjs to 6.6.4 ([dba8c20](https://github.com/julienpoirou/hugo-mod-abcjs/commit/dba8c209845f016ff14fd0481d2852afc81d89d6))
+
 ## [0.2.4](https://github.com/julienpoirou/hugo-mod-abcjs/compare/v0.2.3...v0.2.4) (2026-08-09)
 
 
