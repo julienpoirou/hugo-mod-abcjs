@@ -1,0 +1,17 @@
+{
+  "name": "hugo-mod-abcjs-vendored",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Declares the third-party libraries this module vendors under assets/libs/. Never installed at build time or at runtime: it exists so Dependabot tracks their versions and GitHub raises security alerts on the code we actually ship. See ../VENDORED.md.",
+  "dependencies": {
+    "abcjs": "6.6.3"
+  },
+  "vendored": {
+    "abcjs-basic-min.js": {
+      "path": "assets/libs/hugo-mod-abcjs/abcjs-basic-min.js",
+      "package": "abcjs",
+      "source": "https://cdn.jsdelivr.net/npm/abcjs@{version}/dist/abcjs-basic-min.js",
+      "sha256": "abdab74cf95c39fb9ff4ae0c96735b9c35222851f0844ce471ddd4354739bc75"
+    }
+  }
+}
