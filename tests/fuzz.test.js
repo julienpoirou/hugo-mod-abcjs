@@ -5,9 +5,11 @@
 // (not just the inputs a human would think to write by hand) are checked
 // against the same invariants the runtime relies on: it never throws past
 // the catch boundary, and valid UTF-8 round-trips losslessly.
-import test from "node:test";
-import assert from "node:assert/strict";
-import fc from "fast-check";
+"use strict";
+
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fc = require("fast-check");
 
 // Mirrors decodeBase64Utf8 from hugo-mod-abcjs.js, using Node's Buffer
 // instead of window.atob/TextDecoder (unavailable outside a browser) so the
