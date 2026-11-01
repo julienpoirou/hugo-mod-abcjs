@@ -6,9 +6,9 @@ All files live in `assets/libs/hugo-mod-abcjs/`.
 
 | File | Library | Version | License | SHA-256 |
 |---|---|---|---|---|
-| `abcjs-basic-min.js` | [abcjs](https://github.com/paulrosen/abcjs) | 6.6.4 | MIT | `b1c6e12dc1c032a0052f1355d87233a700724a5df65630369d370cc7b79b373d` |
+| `abcjs-basic-min.js` | [abcjs](https://github.com/paulrosen/abcjs) | 6.7.2 | MIT | `3290ef44c918d5e882029d3a47ad3dd63c16c8819da5abe921f3d1e642b4f4f0` |
 
-Source: `https://cdn.jsdelivr.net/npm/abcjs@6.6.4/dist/abcjs-basic-min.js`
+Source: `https://cdn.jsdelivr.net/npm/abcjs@6.7.2/dist/abcjs-basic-min.js`
 
 First-party files, under this repository's [LICENSE](LICENSE): `hugo-mod-abcjs.js`, `hugo-mod-abcjs.css`.
 
