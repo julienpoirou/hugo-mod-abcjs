@@ -6,7 +6,7 @@
   "scripts": {
     "verify": "node tests/verify-render.js",
     "commitlint": "commitlint",
-    "fuzz": "node --test tests/fuzz.test.mjs"
+    "fuzz": "node --test tests/fuzz.test.js"
   },
   "devDependencies": {
     "@commitlint/cli": "21.2.4",
