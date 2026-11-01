@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.6](https://github.com/julienpoirou/hugo-mod-abcjs/compare/v0.2.5...v0.2.6) (2026-11-01)
+
+
+### Corrections 🐛
+
+* **ci:** Scope workflow token permissions and pin unpinned downloads ([#32](https://github.com/julienpoirou/hugo-mod-abcjs/issues/32)) ([52ff0f5](https://github.com/julienpoirou/hugo-mod-abcjs/commit/52ff0f534981d2fc3c18454418014fc61a8f34b6))
+* **test:** Rename fuzz test to .js and wire it into CI ([#34](https://github.com/julienpoirou/hugo-mod-abcjs/issues/34)) ([aa2479e](https://github.com/julienpoirou/hugo-mod-abcjs/commit/aa2479ed88a6eeeb7f1810480a18f765400d0c3a))
+
 ## [0.2.5](https://github.com/julienpoirou/hugo-mod-abcjs/compare/v0.2.4...v0.2.5) (2026-08-10)
 
 
